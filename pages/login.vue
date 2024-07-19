@@ -41,7 +41,7 @@
           </template>
           <span class="text-surface-500 dark:text-surface-400 block mb-8">Cadastre-se</span>
           <div class="flex items-center gap-4 mb-4">
-              <label for="fullname" class="font-semibold w-24">User</label>
+              <label for="fullname" class="font-semibold w-24">Token</label>
               <InputText id="fullname" v-model="registerData.fullname" class="flex-auto" autocomplete="off" />
           </div>
           <div class="flex items-center gap-4 mb-2">
@@ -96,6 +96,7 @@ const { authenticated } = storeToRefs(useAuthStore()); // make authenticated sta
 const router = useRouter();
 
 const handleLogin = async () => {
+  // router.push('/');
   await authenticateUser(loginData.value);
   if (authenticated) {
     router.push('/');
