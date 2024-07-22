@@ -8,7 +8,7 @@ export const useMyLogStore = defineStore('logs',{
   }),
   actions: {
     async getLogs() {
-      const { logs } = await useFetchData("http://localhost:3333/logs", "GET");
+      const { logs } = await useFetchData("http://89.213.41.215:3333/logs", "GET");
       this.logs = logs;
     },
   },

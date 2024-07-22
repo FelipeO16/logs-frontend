@@ -1,10 +1,15 @@
 <template>
-  <div class="flex justify-center items-center h-screen w-screen relative" v-if="logs.length > 0">
-    <Button class="fixed top-2 left-2" label="logout" @click="logout" />
+  <div class="flex flex-col justify-center items-center h-screen w-screen relative" v-if="logs.length > 0">
+    <div class="absolute top-2 right-2 flex justify-center items-center gap-4">
+      Olá, {{ name }}!
+      <Button label="logout" @click="logout" />
+
+
+    </div>
     <ClientOnly>
       <div class="w-auto h-auto overflow-auto">
         <DataTable v-model:filters="filters" :value="logs" dataKey="id" paginator :rows="10" tableStyle="min-width: 50rem" stripedRows :rowsPerPageOptions="[5, 10, 15]" filterDisplay="row"
-        :globalFilterFields="['category', 'text', 'id', 'createdAt']"
+        :globalFilterFields="['category', 'text', 'userId', 'createdAt']"
         >
           <!-- <template #header>
               <div class="flex justify-end">
@@ -51,6 +56,7 @@ import { FilterMatchMode } from '@primevue/core/api';
 import { useAuthStore } from '~/store/auth'; 
 import { useMyCategoriesStore } from '~/store/categories';
 import { useMyLogStore } from '~/store/logs';
+const { name } = storeToRefs(useAuthStore());
 const { logUserOut } = useAuthStore(); 
 
 
@@ -80,10 +86,10 @@ const logout = () => {
 
 
 const columns = [
-  { field: 'id', header: 'ID' },
-  { field: 'category', header: 'Category' },
-  { field: 'action', header: 'Text' },
-  { field: 'createdAt', header: 'Created At'}
+  { field: 'userId', header: 'ID' },
+  { field: 'category', header: 'Categoria' },
+  { field: 'action', header: 'Ação' },
+  { field: 'createdAt', header: 'Data'}
 ]
 
 const filters = ref({
@@ -91,7 +97,7 @@ const filters = ref({
     category: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
     action: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
     createdAt: { value: null, matchMode: FilterMatchMode.EQUALS },
-    user_id: { value: null, matchMode: FilterMatchMode.EQUALS },
+    userId: { value: null, matchMode: FilterMatchMode.EQUALS },
     id: { value: null, matchMode: FilterMatchMode.EQUALS },
 
 });

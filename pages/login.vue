@@ -35,14 +35,14 @@
         <Dialog v-model:visible="showModal" modal header="Edit Profile" :style="{ width: '25rem' }">
           <template #header>
               <div class="inline-flex items-center justify-center gap-2">
-                  <Avatar size="xlarge" image="https://media.discordapp.net/attachments/916002437620432917/1244307328728043540/GIF.gif?ex=6699d9c1&is=66988841&hm=d905a75005b2dcad8bdf2db70b1383f070401a9411689ba08b6489bcb7422edf&=" shape="circle" />
+                  <Avatar size="xlarge" image="http://89.213.41.215/logo.png" class="border" shape="circle" />
                   <span class="font-bold whitespace-nowrap">Deluxe RP</span>
               </div>
           </template>
           <span class="text-surface-500 dark:text-surface-400 block mb-8">Cadastre-se</span>
           <div class="flex items-center gap-4 mb-4">
-              <label for="fullname" class="font-semibold w-24">Token</label>
-              <InputText id="fullname" v-model="registerData.fullname" class="flex-auto" autocomplete="off" />
+              <label for="fullname" class="font-semibold w-24">nome</label>
+              <InputText id="fullname" v-model="registerData.full_name" class="flex-auto" autocomplete="off" />
           </div>
           <div class="flex items-center gap-4 mb-2">
               <label for="email" class="font-semibold w-24">Email</label>
@@ -52,6 +52,10 @@
               <label for="password" class="font-semibold w-24">Senha</label>
               <InputText type="password" v-model="registerData.password" id="password" class="flex-auto" autocomplete="off" />
           </div>
+          <div class="flex items-center gap-4 mb-4">
+              <label for="fullname" class="font-semibold w-24">Token</label>
+              <InputText id="fullname" v-model="registerData.token" class="flex-auto" autocomplete="off" />
+          </div>
           <template #footer>
               <Button label="Cancel" text severity="secondary" @click="showModal = false" autofocus />
               <Button label="Save" outlined severity="secondary" @click="handleRegister" autofocus />
@@ -60,6 +64,7 @@
       </div>
     </div>
     
+    <Toast />
   </div>
 </template>
 
@@ -89,9 +94,11 @@
 import { storeToRefs } from 'pinia'; // import storeToRefs helper hook from pinia
 import { useAuthStore } from '~/store/auth'; // import the auth store we just created
 
-const { authenticateUser } = useAuthStore(); // use authenticateUser action from  auth store
+const { authenticateUser, registerUser } = useAuthStore(); // use authenticateUser action from  auth store
 
 const { authenticated } = storeToRefs(useAuthStore()); // make authenticated state reactive with storeToRefs
+
+const toast = useToast();
 
 const router = useRouter();
 
@@ -103,9 +110,19 @@ const handleLogin = async () => {
   }
 };
 
-const handleRegister = () => {
+const handleRegister = async () => {
   // Implement registration logic here
-  showModal.value = false
-  console.log('Register', registerData.value);
+  try {
+    const {success} = await registerUser(registerData.value);
+    if (success) {
+      toast.add({ severity: 'success', summary: 'Successo!', detail: 'Usuário cadastrado com sucesso!', life: 3000 });
+    }
+    showModal.value = false
+  }
+  catch (error) {
+    toast.add({ severity: 'error', summary: 'Erro!', detail: 'Dados inválidos', life: 3000 });
+  }
+
+  // console.log('Register', registerData.value);
 };
 </script>
