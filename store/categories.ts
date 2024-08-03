@@ -9,7 +9,8 @@ export const useMyCategoriesStore = defineStore('categories',{
   }),
   actions: {
     async getCategories() {
-      const { categories } = await useFetchData("http://89.213.41.215:3333/categories", "GET");
+      const { categories } = await useFetchData("http://localhost:3333/categories", "GET");
+      console.log(categories);
       this.categories = categories;
     },
   },

@@ -20,7 +20,7 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     async authenticateUser({ email, password }: UserPayloadInterface) {
       // useFetch from nuxt 3
-      const { data, pending }: any = await useFetch('http://89.213.41.215:3333/login', {
+      const { data, pending }: any = await useFetch(`http://localhost:3333/login`, {
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
         body: {
@@ -40,7 +40,7 @@ export const useAuthStore = defineStore('auth', {
     },
     async registerUser({ full_name, email, password, token }: UserRegisterPayloadInterface) {
       try{
-        const { data, pending, status }: any = await useFetch('http://89.213.41.215:3333/register', {
+        const { data, pending, status }: any = await useFetch('http://localhost:3333/register', {
           method: 'post',
           headers: { 'Content-Type': 'application/json' },
           body: {
