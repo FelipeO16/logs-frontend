@@ -54,7 +54,6 @@ export const useAuthStore = defineStore('auth', {
           throw new Error(status.value);
         }
         this.loading = pending;
-        console.log(data);
         return {success: true, data};
       } catch (error: any) {
         throw new Error(error);

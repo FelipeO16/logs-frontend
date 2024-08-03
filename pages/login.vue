@@ -122,7 +122,5 @@ const handleRegister = async () => {
   catch (error) {
     toast.add({ severity: 'error', summary: 'Erro!', detail: 'Dados inválidos', life: 3000 });
   }
-
-  // console.log('Register', registerData.value);
 };
 </script>
